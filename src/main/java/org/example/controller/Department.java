@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.dto.DepartmentDto;
 import org.example.model.DepartmentModel;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Department {
@@ -31,5 +32,10 @@ public class Department {
         else {
             System.out.println("Department has not been saved");
         }
+    }
+
+    public static void getAllDepartments() {
+        List<Department> departments = DepartmentModel.getAllDepartment();
+        departments.forEach(System.out::println);
     }
 }

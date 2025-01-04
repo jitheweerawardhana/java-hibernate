@@ -20,6 +20,6 @@ public class Department {
     private String location;
     private String manager;
     private double budget;
-    @OneToMany
-    private List<Employee> employees;
+//    @OneToMany
+//    private List<Employee> employees;
 }
