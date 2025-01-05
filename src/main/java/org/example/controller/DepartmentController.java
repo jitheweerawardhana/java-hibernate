@@ -1,12 +1,13 @@
 package org.example.controller;
 
 import org.example.dto.DepartmentDto;
+import org.example.entity.Department;
 import org.example.model.DepartmentModel;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class Department {
+public class DepartmentController {
 
     private String name;
     private String location;
@@ -37,5 +38,35 @@ public class Department {
     public static void getAllDepartments() {
         List<Department> departments = DepartmentModel.getAllDepartment();
         departments.forEach(System.out::println);
+    }
+
+    public static void updateDepartment() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter department's ID: ");
+        Long id = sc.nextLong();
+        sc.nextLine();
+
+        System.out.println("Enter department's name: ");
+        String name = sc.nextLine();
+
+        System.out.println("Enter department's location: ");
+        String location = sc.nextLine();
+
+        System.out.println("Enter department's manager: ");
+        String manager = sc.nextLine();
+
+        System.out.println("Enter department budget: ");
+        double budget = sc.nextDouble();
+
+        DepartmentDto updatedData = new DepartmentDto(name,location,manager,budget);
+        DepartmentModel.updateDepartment(id, updatedData);
+    }
+
+    public static void deleteDepartment() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter department's ID: ");
+        Long id = sc.nextLong();
+        sc.nextLine();
+        DepartmentModel.deleteDepartment(id);
     }
 }

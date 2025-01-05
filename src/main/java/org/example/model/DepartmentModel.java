@@ -1,10 +1,14 @@
 package org.example.model;
 
-import org.example.controller.Department;
+import org.example.controller.DepartmentController;
 import org.example.dto.DepartmentDto;
+import org.example.entity.Department;
 import org.example.utill.GetSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+
+import java.util.List;
 
 public class DepartmentModel {
 
@@ -27,20 +31,43 @@ public class DepartmentModel {
     public void getDepartment(int id){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Department department = session.get(Department.class, id);
+        DepartmentController department = session.get(DepartmentController.class, id);
         session.getTransaction().commit();
     }
-    public void updateDepartment(Department department){
+    public static void updateDepartment(long id, DepartmentDto departmentDto){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.update(department);
-        session.getTransaction().commit();
+        Department department =  session.get(Department.class, id);
+        if(department != null){
+            department.setName(departmentDto.getName());
+            department.setLocation(department.getLocation());
+            department.setManager(department.getManager());
+            department.setBudget(department.getBudget());
+            session.update(department);
+            session.getTransaction().commit();
+        }
+        else{
+            System.out.println("Department not found :" +id);
+        }
     }
-    public void deleteDepartment(int id){
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        Department department = session.get(Department.class, id);
-        session.delete(department);
-        session.getTransaction().commit();
+    public static void deleteDepartment(Long id){
+        try(Session session = sessionFactory.openSession()){
+            session.beginTransaction();
+            Department department = session.get(Department.class, id);
+            if(department != null){
+                session.delete(department);
+                session.getTransaction().commit();
+            }
+            else{
+                System.out.println("Department not found :" +id);
+            }
+        }
+    }
+
+    public static List<Department> getAllDepartment(){
+        try(Session session = sessionFactory.openSession()){
+            Query<Department> query = session.createQuery("from Department", Department.class);
+            return query.getResultList();
+        }
     }
 }
