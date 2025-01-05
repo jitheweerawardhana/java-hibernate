@@ -1,16 +1,15 @@
 package org.example.model;
 
-import org.example.controller.Employee;
+import org.example.controller.EmployeeController;
 import org.example.utill.GetSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 public class EmployeeModel {
 
     SessionFactory sessionFactory = GetSessionFactory.getSessionFactory();
 
-    public void addEmployee(Employee employee) {
+    public void addEmployee(EmployeeController employee) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.save(employee);
@@ -20,11 +19,11 @@ public class EmployeeModel {
     public void getEmployee(long id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Employee employee = (Employee) session.get(Employee.class, id);
+        EmployeeController employee = (EmployeeController) session.get(EmployeeController.class, id);
         session.getTransaction().commit();
     }
 
-    public void updateEmployee(Employee employee) {
+    public void updateEmployee(EmployeeController employee) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.update(employee);
@@ -33,7 +32,7 @@ public class EmployeeModel {
     public void deleteEmployee(long id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Employee employee = (Employee) session.get(Employee.class, id);
+        EmployeeController employee = (EmployeeController) session.get(EmployeeController.class, id);
         session.delete(employee);
     }
 
