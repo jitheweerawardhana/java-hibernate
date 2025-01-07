@@ -52,7 +52,7 @@ public class DepartmentController {
         System.out.println("Enter department's location: ");
         String location = sc.nextLine();
 
-        System.out.println("Enter department's manager: ");
+        System.out.println("Enter department's manager name ");
         String manager = sc.nextLine();
 
         System.out.println("Enter department budget: ");
