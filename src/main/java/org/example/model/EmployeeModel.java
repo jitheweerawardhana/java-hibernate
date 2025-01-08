@@ -1,6 +1,7 @@
 package org.example.model;
 
 import org.example.controller.EmployeeController;
+import org.example.dto.EmployeeDto;
 import org.example.entity.Department;
 import org.example.utill.GetSessionFactory;
 import org.hibernate.Session;
@@ -10,12 +11,13 @@ public class EmployeeModel {
 
     SessionFactory sessionFactory = GetSessionFactory.getSessionFactory();
 
-    public void saveEmployee(EmployeeController employee) {
+    public void saveEmployee(EmployeeDto employeeDto) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            Department department = session.createQuery("from Department where  name = :name",Department.class);
-
+            Department department = session.createQuery("from Department where  name = :name",Department.class)
+                    .setParameter("name",employeeDto.getName())
+                    .uniqueResult();
         }
     }
 
