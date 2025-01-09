@@ -40,6 +40,9 @@ public class EmployeeModel {
                 session.getTransaction().rollback();
                 return;
             }
+            Department department = session.createQuery("from Department where name = :name",Department.class)
+                    .setParameter("name",employeeDto.getName())
+                    .uniqueResult();
         }
     }
     public void deleteEmployee(long id) {
