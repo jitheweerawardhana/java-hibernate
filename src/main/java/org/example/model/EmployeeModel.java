@@ -12,7 +12,7 @@ import java.util.List;
 
 public class EmployeeModel {
 
-    SessionFactory sessionFactory = GetSessionFactory.getSessionFactory();
+    static SessionFactory sessionFactory = GetSessionFactory.getSessionFactory();
 
     public void saveEmployee(EmployeeDto employeeDto) {
         try (Session session = sessionFactory.openSession()) {
@@ -30,11 +30,17 @@ public class EmployeeModel {
         }
     }
 
-    public void updateEmployee(EmployeeController employee) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.update(employee);
-        session.getTransaction().commit();
+    public static void updateEmployee(Long id, EmployeeDto employeeDto) {
+        try(Session session = sessionFactory.openSession()){
+            session.beginTransaction();
+
+            Employee employee = session.get(Employee.class,id);
+            if(employee==null){
+                System.out.println("Employee not found");
+                session.getTransaction().rollback();
+                return;
+            }
+        }
     }
     public void deleteEmployee(long id) {
         Session session = sessionFactory.openSession();
