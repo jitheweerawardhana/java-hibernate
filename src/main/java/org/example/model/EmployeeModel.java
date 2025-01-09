@@ -3,9 +3,12 @@ package org.example.model;
 import org.example.controller.EmployeeController;
 import org.example.dto.EmployeeDto;
 import org.example.entity.Department;
+import org.example.entity.Employee;
 import org.example.utill.GetSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
+import java.util.List;
 
 public class EmployeeModel {
 
@@ -21,11 +24,10 @@ public class EmployeeModel {
         }
     }
 
-    public void getEmployee(long id) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        EmployeeController employee = (EmployeeController) session.get(EmployeeController.class, id);
-        session.getTransaction().commit();
+    public List<Employee> getAllEmployees() {
+        try(Session session = sessionFactory.openSession()) {
+            return session.createQuery("from Employee",Employee.class).list();
+        }
     }
 
     public void updateEmployee(EmployeeController employee) {
